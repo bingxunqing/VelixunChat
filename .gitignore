@@ -1,0 +1,47 @@
+### 一些关于密码的机密文件
+*.keystore
+*.truststore
+config.properties
+key.txt
+server_cert.cer
+
+## 一些构建的jar包
+/target/
+/exe/
+/out/
+
+
+
+## 一些个性配置文件
+/.idea/
+*.iml
+
+### IntelliJ IDEA ###
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### Eclipse ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+### Mac OS ###
+.DS_Store
