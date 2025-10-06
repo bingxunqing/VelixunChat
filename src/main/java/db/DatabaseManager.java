@@ -1,6 +1,7 @@
+package db;
+
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import com.zaxxer.hikari.util.ConcurrentBag;
 import org.mindrot.jbcrypt.BCrypt;
 import java.util.Properties;
 import java.sql.Connection;

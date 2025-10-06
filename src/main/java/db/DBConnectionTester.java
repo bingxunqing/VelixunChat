@@ -1,8 +1,8 @@
+package db;
+
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.Properties;
 
 
 public class DBConnectionTester {

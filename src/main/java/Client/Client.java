@@ -1,19 +1,24 @@
+package Client;
+
 import javax.net.ssl.SSLSocketFactory;
 import java.io.*;
 import java.net.Socket;
 import java.nio.charset.StandardCharsets;
+import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Scanner;
 
-public class Client2 {
+public class Client {
+    private Queue<String> queue = new PriorityQueue<>();
     public static void main(String[] args) throws IOException {
         String serverIP = "48.210.84.122";
         int port = 50000;
 
         // 相关加密部分
-        System.setProperty("javax.net.ssl.trustStore", "client.truststore");
+//        System.setProperty("javax.net.ssl.trustStore", "client.truststore");
 
-        // 根目录下密钥文件的密码，运行再填
-        System.setProperty("javax.net.ssl.trustStorePassword", "-----");
+        // 根目录下密钥文件的密码
+//        System.setProperty("javax.net.ssl.trustStorePassword", "321681398");
 
 //        System.out.println("正在链接服务器"+serverIP+":"+port);
         try(Scanner sc = new Scanner(System.in)) {
@@ -22,7 +27,7 @@ public class Client2 {
                     Socket socket = sf.createSocket(serverIP,port);
                     BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
                     PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), StandardCharsets.UTF_8), true);
-            ){
+                    ){
                 System.out.println("已连接到服务器！");
                 ServerListener listener = new ServerListener(br);
                 new Thread(listener).start();

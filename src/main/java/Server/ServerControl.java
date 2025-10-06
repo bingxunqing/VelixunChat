@@ -1,5 +1,8 @@
+package Server;
+
+import db.DatabaseManager;
+
 import javax.net.ssl.SSLServerSocketFactory;
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.ServerSocket;
@@ -58,7 +61,7 @@ public class ServerControl {
     }
 
     // 每次注册完后判断有没有超过数据库限制的总人数，防止被攻破！
-    public static void sucessRegister(String ip){
+    public static void successRegister(String ip){
 
         long currentTime = System.currentTimeMillis();
         Queue<Long> timestamp = registerHistory.computeIfAbsent(ip,k ->new ConcurrentLinkedQueue<>());
@@ -70,19 +73,17 @@ public class ServerControl {
         if(totalUsers>Max_Users){
             registerDisable.set(true);
             System.out.println("【【【严重警告】】用户总数已达到阈值 " + Max_Users + "！已自动关闭全站注册功能！");
-            broadcastMessage("【【【严重警告】】 注册用户数量过多，暂时关闭注册功能！");
+//            broadcastMessage("【【【严重警告】】 注册用户数量过多，暂时关闭注册功能！");
         }
     }
 
-
-
-    private static List<ClientHandler> clients = new CopyOnWriteArrayList<>();
+    private List<ClientHandler> clients = new CopyOnWriteArrayList<>();
 
     private static ExecutorService theadpool = Executors.newFixedThreadPool(10);
     public static void main(String[] args) {
         DatabaseManager.init(props);
         System.out.println("等待链接中..");
-
+        ServerControl server = new ServerControl();
         // 相关加密部分
         System.setProperty("javax.net.ssl.keyStore", "server.keystore");
 
@@ -97,7 +98,7 @@ public class ServerControl {
                     Socket clientSocket = serversocket.accept();
                     System.out.println("新客户端链接"+clientSocket.getRemoteSocketAddress());
 
-                    ClientHandler clientTask = new ClientHandler(clientSocket);
+                    ClientHandler clientTask = new ClientHandler(clientSocket,server);
                     theadpool.submit(clientTask);
                 }
             } catch (IOException e) {
@@ -110,24 +111,24 @@ public class ServerControl {
 
     }
 
-    public static  void addClientHandler(ClientHandler clientTask){
+    public void addClientHandler(ClientHandler clientTask){
         clients.add(clientTask);
         System.out.println("当前在线人数:"+clients.size());
     }
 
-    public static  void removeClientHandler(ClientHandler clientTask){
+    public void removeClientHandler(ClientHandler clientTask){
         clients.remove(clientTask);
         System.out.println("当前在线人数"+clients.size());
     }
 
-    public static void broadcastMessage(String message){
+    public void broadcastMessage(String message){
         System.out.println("正在广播:"+message);
         for(ClientHandler clientTask : clients){
             clientTask.sendMessage(message);
         }
     }
 
-    public static ClientHandler getClientByUserName(String userName){
+    public ClientHandler getClientByUserName(String userName){
         for(ClientHandler clientTask : clients){
             if (clientTask.getCurrentUsername().equals(userName)){
                 return clientTask;
@@ -135,6 +136,4 @@ public class ServerControl {
         }
         return null;
     }
-
-
 }
