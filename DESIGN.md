@@ -28,5 +28,6 @@ serverControl,Client.Client,ClientHandle,db.DatabaseManager,CommandParser
 login,register,PublicChat,PrivateChat,ChangeChatTarget
 
 
+**于10.7-1:22完成重构**
 
 
