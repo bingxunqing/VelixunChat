@@ -15,13 +15,13 @@ public class Client {
         int port = 50000;
 
         // 相关加密部分
-//        System.setProperty("javax.net.ssl.trustStore", "client.truststore");
+        System.setProperty("javax.net.ssl.trustStore", "client.truststore");
 
-        // 根目录下密钥文件的密码
-//        System.setProperty("javax.net.ssl.trustStorePassword", "321681398");
+//         根目录下密钥文件的密码
+        System.setProperty("javax.net.ssl.trustStorePassword", "321681398");
 
 //        System.out.println("正在链接服务器"+serverIP+":"+port);
-        try(Scanner sc = new Scanner(System.in)) {
+        try(Scanner sc = new Scanner(System.in, StandardCharsets.UTF_8)) {
             SSLSocketFactory sf = (SSLSocketFactory) SSLSocketFactory.getDefault();
             try(
                     Socket socket = sf.createSocket(serverIP,port);
